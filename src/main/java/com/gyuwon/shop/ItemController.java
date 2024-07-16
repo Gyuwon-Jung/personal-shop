@@ -16,55 +16,52 @@ public class ItemController {
 
     private final ItemRepository itemRepository;
     private final BoardRepository boardRepository;
+    private final ItemService itemService;
 
     @GetMapping("/list")
-    String list(Model model){
-    List<Item> result = itemRepository.findAll();
-    List<Board> boards = boardRepository.findAll();
+    String list(Model model) {
+        List<Item> result = itemRepository.findAll();
+        List<Board> boards = boardRepository.findAll();
         model.addAttribute("items", result);
         model.addAttribute("boards", boards);
         return "list.html";
     }
 
     @GetMapping("/write")
-    String write(Model model){
+    String write(Model model) {
         return "write.html";
     }
 
-//    @PostMapping("/add")
-//    String addPost(@RequestParam String title, @RequestParam Integer price){
-//        System.out.println(title);
-//        System.out.println(price);
-//        Item item = new Item();
-//        item.setTitle(title);
-//        item.setPrice(price);
-//
-//        itemRepository.save(item);
-//        return "redirect:/list";
-//    }
-
     @PostMapping("/add")
-    String addPost(@ModelAttribute Item item){
-        System.out.println(item);
-
-        itemRepository.save(item);
+    String addPost(@RequestParam String title, @RequestParam Integer price) {
+        itemService.saveItem(title, price);
         return "redirect:/list";
     }
 
     @GetMapping("/detail/{id}")
-    String detail(@PathVariable int id, Model model){
+    String detail(@PathVariable int id, Model model) {
         Optional<Item> result = itemRepository.findById(Long.valueOf(id));
-        if( result.isPresent()) {
+        if (result.isPresent()) {
             model.addAttribute("item", result.get());
             return "detail.html";
-        }
-        else{
+        } else {
             return "redirect:/list";
         }
 
     }
 
-
+    @PostMapping("/edit/{id}")
+    String modifyPost(@PathVariable int id, @RequestParam String title, @RequestParam Integer price) {
+        Optional<Item> result = itemRepository.findById(Long.valueOf(id));
+        if (result.isPresent()) {
+            Item item = result.get();
+            item.setTitle(title);
+            item.setPrice(price);
+            itemRepository.save(item);
+        }
+        return "redirect:/list";
+    }
+}
 
 //    @GetMapping("/detail/{id}")
 //    ResponseEntity<String> detail(@PathVariable int id, Model model){
@@ -78,6 +75,3 @@ public class ItemController {
 //        }
 //
 //    }
-
-
-}
