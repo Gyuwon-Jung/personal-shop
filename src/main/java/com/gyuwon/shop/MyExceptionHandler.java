@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class MyExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handler(){
-        return ResponseEntity.status(200).body("gd");
+        return ResponseEntity.status(200).body("Exception");
     }
 }

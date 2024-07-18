@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
 </head>
 <body>
-$END$
+
+<div th:replace="~{nav.html::navbar}"></div>
+
+<form th:action="@{'/edit/' + ${data.id}}" method="POST">
+    <input name="title" th:value="${data.title}">
+    <input name="price" th:value="${data.price}">
+    <button type="submit">전송</button>
+</form>
 </body>
 </html>

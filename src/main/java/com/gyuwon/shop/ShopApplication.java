@@ -11,10 +11,3 @@ public class ShopApplication {
 	}
 
 }
-
-class Test {
-	String name = "kim";
-	void hello(){
-		System.out.println("hello");
-	}
-}
